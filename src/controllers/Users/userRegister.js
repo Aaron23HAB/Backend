@@ -1,12 +1,14 @@
+import generateError from "../../../helper";
+
 const userRegister = async (req, res, next) => {
     try{
-        console.log(req.url);
-        console.log(req.method); 
-        console.log(req.body);
-        res.send({
-            status: 'error',
-            message: 'not implemented'
-        })
+        const { email, password } = req.body;
+        
+        if(!email || !password){
+            throw generateError ('Debes proporcionar email y contraseña');
+            
+        }
+        
     } catch(error) {
         next(error);
     }
