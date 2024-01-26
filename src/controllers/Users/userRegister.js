@@ -1,13 +1,21 @@
-import generateError from "../../../helper";
+
+import generateError from "../../../helper.js";
+import createUser from "../../db/users.js";
 
 const userRegister = async (req, res, next) => {
     try{
-        const { email, password } = req.body;
+        const { name, email, password } = req.body;
         
-        if(!email || !password){
+        if(!name || !email || !password ){
             throw generateError ('Debes proporcionar email y contraseña');
-            
         }
+
+        const id = await createUser(name, email, password);
+
+        res.send({
+            status: 'ok',
+            message: `User created with id: ${id}`
+        })
         
     } catch(error) {
         next(error);

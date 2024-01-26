@@ -4,10 +4,10 @@ import morgan from 'morgan';
 
 
 import {
-  newUserController,
-  getUserController,
-  loginController,
-}  from './src/controllers/Users/userRegister.js'
+  patchUser,
+  userRegister,
+  userLogin
+}  from './src/controllers/Users/index.js'
 
 import {
     createNote,
@@ -23,9 +23,9 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 //Rutas de usuario
-app.post('/user', newUserController);
-app.post('/user/:id', getUserController);
-app.post('/login', loginController);
+app.post('/users', patchUser);
+app.post('/users/', userRegister);
+app.post('/login', userLogin);
 
 //rutas de notas
 app.get('/', getAllNotes);
