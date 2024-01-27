@@ -2,6 +2,21 @@ import generateError from '../../helper.js';
 import bcrypt from 'bcrypt';
 import getPool from './db.js';
 
+//devuelve la info publica de un user por id
+const getUserById = async (id) => {
+  let connection;
+
+  try{
+    connection = await getPool();
+
+    const [result] = await connection.query(
+      `
+      SELECT id, name, email, created_at FROM users WHERE id=?
+      `[id]
+    );
+  }finally{ console.log("terminao")}
+}
+
 // Crear usuario en base de datos y devuelve id
 const createUser = async (name, email, password) => {
   let connection;
@@ -40,4 +55,4 @@ const createUser = async (name, email, password) => {
   //
 };
 
-export default createUser;
+export  {createUser, getUserById};

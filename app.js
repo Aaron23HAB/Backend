@@ -1,14 +1,11 @@
 import "dotenv/config";
 import express from 'express';
 import morgan from 'morgan';
-
-
 import {
   patchUser,
   userRegister,
   userLogin
 }  from './src/controllers/Users/index.js'
-
 import {
     createNote,
     deleteNote,
@@ -16,6 +13,8 @@ import {
     getAllNotes,
     updateNote,
   } from './src/controllers/Notes/index.js'
+  
+import auth from "./src/middlewares/auth.js"
 
 const app = express();
 
@@ -24,7 +23,7 @@ app.use(morgan('dev'));
 
 //Rutas de usuario
 app.post('/users', patchUser);
-app.post('/users/', userRegister);
+app.post('/register', userRegister);
 app.post('/login', userLogin);
 
 //rutas de notas
