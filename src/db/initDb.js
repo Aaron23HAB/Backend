@@ -21,9 +21,9 @@ async function main() {
         CREATE TABLE notes (
             id INTEGER PRIMARY KEY AUTO_INCREMENT,
             user_id INT NOT NULL,
-            texto TEXT,
+            title VARCHAR(100) NOT NULL,
+            texto TEXT NOT NULL,
             categorie_id INT,
-            image VARCHAR(100),
             eliminated BOOLEAN DEFAULT FALSE,
             FOREING KEY (user_id) REFERENCES users(id),
             FOREING KEY (categorie_id) REFERENCES categories(id)
