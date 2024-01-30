@@ -29,9 +29,9 @@ app.post('/login', userLogin);
 //rutas de notas
 app.get('/', getAllNotes);
 app.get('/note/:id', getNote);
-app.post('/', createNote);
-app.delete('/', deleteNote);
-app.patch('/note/:id', updateNote);
+app.post('/', createNote, auth);
+app.delete('/', deleteNote, auth);
+app.patch('/note/:id', updateNote, auth);
 
 
 

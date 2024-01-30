@@ -1,12 +1,15 @@
-const getAllNotes = async (req, res, next) => {
+import { getAllNotes } from "../../db/notes";
+
+const getAllNote = async (req, res, next) => {
     try{
+        const notes = await getAllNotes();
       res.send({
-          status: 'error',
-          message: 'not implemented'
+          status: 'ok',
+          data: notes,
       })
   } catch(error) {
       next(error);
   }
   };
 
-  export default getAllNotes;
+  export default getAllNote;
