@@ -1,5 +1,5 @@
-import generateError from '../../helper';
-import getPool from './db';
+import generateError from '../../helper.js';
+import getPool from './db.js';
 import 'dotenv/config';
 
 let pool = await getPool();

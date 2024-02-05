@@ -6,7 +6,11 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "initDb": "node src/db/createDb.js && node src/db/initDb.js",
+    "dropDb": "node src/db/dropDb.js",
+    "createDb": "node src/db/createDb.js",
+    "createTables": "node src/db/initDb.js" 
   },
   "author": "Aarón",
   "license": "ISC",
