@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import generateError from '../../helper';
+import generateError from '../../helper.js';
 
 const auth = (req, res, next) => {
   try {

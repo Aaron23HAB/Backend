@@ -6,7 +6,7 @@ import getPool from './db.js';
 const getUserById = async (id) => {
   let connection;
 
-  try{
+  try {
     connection = await getPool();
 
     const [result] = await connection.query(
@@ -14,8 +14,13 @@ const getUserById = async (id) => {
       SELECT id, name, email, created_at FROM users WHERE id=?
       `[id]
     );
-  }finally{ console.log("terminao")}
-}
+    if (result.length === 0) {
+      throw generateError('Usuario no encontrado', 404);
+    }
+  } finally {
+    console.log('terminao');
+  }
+};
 
 // Crear usuario en base de datos y devuelve id
 const createUser = async (name, email, password) => {
@@ -40,13 +45,12 @@ const createUser = async (name, email, password) => {
 
     //creacion user
     const [newUser] = await connection.query(
-        `
+      `
         INSERT INTO users (name, nickname, email, password) VALUES(?,?,?,?)
-        `[name, email, hashPassword]
+        `[(name, email, hashPassword)]
     );
     //devuelve ID
     return newUser.insertId;
-
   } finally {
     if (connection) connection.release();
   }
@@ -55,4 +59,4 @@ const createUser = async (name, email, password) => {
   //
 };
 
-export  {createUser, getUserById};
+export default { createUser, getUserById };

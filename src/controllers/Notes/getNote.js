@@ -1,4 +1,4 @@
-import { getNotebyId } from "../../db/notes";
+import { getNotebyId } from "../../db/notes.js";
 
 const getNote = async (req, res, next) => {
     try{

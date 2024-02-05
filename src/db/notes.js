@@ -71,6 +71,5 @@ const deleteNotes = async (id) => {
   }
 };
 
-export { newNote, getAllNotes, getNotebyId, deleteNotes };
-
-
+export { getAllNotes, getNotebyId, deleteNotes };
+export default newNote;

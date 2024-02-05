@@ -1,4 +1,5 @@
-import generateError from "../../../helper"
+import generateError from "../../../helper.js"
+import getUserById from "../../db/users.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
@@ -11,7 +12,7 @@ const userLogin = async (req, res, next) => {
         }
 
         //recojo datos de DB
-        const user = await getUserByEmail(email);
+        const user = await getUserById(email);
 
         //contraseñas coinciden
         const validPassword = await bcrypt.compare(password, user.password);
@@ -25,12 +26,13 @@ const userLogin = async (req, res, next) => {
 
         //token
 
-        const token = jwt.sign(payload, process.env.SECRET, {expiresIn: 90d})
+        const token = jwt.sign(payload, process.env.SECRET, {expiresIn: '90d'});
 
         res.send({
             status: 'error',
             message: 'not implemented'
         })
+        res.status(200).json({token: token });
     } catch(error) { 
         next(error);
     }

@@ -1,5 +1,5 @@
-import generateError from "../../../helper";
-import { getNotebyId, deleteNotes} from "../../db/notes";
+import generateError from "../../../helper.js";
+import { getNotebyId, deleteNotes} from "../../db/notes.js";
 
 
 const deleteNote = async (req, res, next) => {

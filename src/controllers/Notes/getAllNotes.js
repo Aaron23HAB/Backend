@@ -1,4 +1,4 @@
-import { getAllNotes } from "../../db/notes";
+import { getAllNotes } from "../../db/notes.js";
 
 const getAllNote = async (req, res, next) => {
     try{

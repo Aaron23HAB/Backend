@@ -1,5 +1,5 @@
-import generateError from '../../../helper';
-import newNote from '../../db/notes';
+import generateError from '../../../helper.js';
+import newNote from '../../db/notes.js';
 
 const createNote = async (req, res, next) => {
   try {
