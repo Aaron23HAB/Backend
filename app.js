@@ -11,15 +11,18 @@ import {
     deleteNote,
     getNote,
     getAllNotes,
-    updateNote,
+    editNote,
   } from './src/controllers/Notes/index.js'
   
 import auth from "./src/middlewares/auth.js"
 
 const app = express();
+const cors = require('cors');
+
 
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(cors());
 
 //Rutas de usuario
 app.post('/users', patchUser);
@@ -31,7 +34,7 @@ app.get('/', getAllNotes);
 app.get('/note/:id', getNote);
 app.post('/', createNote, auth);
 app.delete('/', deleteNote, auth);
-app.patch('/note/:id', updateNote, auth);
+app.patch('/note/:id', editNote, auth);
 
 
 

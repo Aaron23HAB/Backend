@@ -38,11 +38,13 @@ const getNotebyId = async (id) => {
 
   try {
     connection = await getPool();
-    const [result] = await connection.query(`
+    const [result] = await connection.query(
+      `
     SELECT * FROM notes ORDER BY created_at DESC
-    `[id]);
+    `[id]
+    );
 
-    if(result.length === 0){
+    if (result.length === 0) {
       throw generateError(`La nota con id: ${id} no existe`, 404);
     }
 
@@ -57,11 +59,13 @@ const deleteNotes = async (id) => {
 
   try {
     connection = await getPool();
-    const [result] = await connection.query(`
+    const [result] = await connection.query(
+      `
     SELECT * FROM notes WHERE id = ?
-    `[id]);
+    `[id]
+    );
 
-    if(result.length === 0){
+    if (result.length === 0) {
       throw generateError(`La nota con id: ${id} no existe`, 404);
     }
 
@@ -71,5 +75,29 @@ const deleteNotes = async (id) => {
   }
 };
 
-export { getAllNotes, getNotebyId, deleteNotes };
+const updateNote = async (newTexto, newTitle, id, userId) => {
+  let connection;
+
+  try {
+    connection = await getPool();
+    const [result] = await connection.query(
+      `
+    UPDATE notes SET texto = ?, title = ? WHERE id = ? AND user_id = ?
+    `[(newTexto, newTitle, id, userId)]
+    );
+
+    if (result.affectedRows === 0) {
+      throw generateError(`No se encontró ninguna nota con el id: ${id}`, 404);
+    }
+
+    return result;
+  } catch (error) {
+    console.error('Error al actualizar la nota:', error);
+    throw new Error('Ocurrió un error al actualizar la nota ');
+  } finally {
+    if (connection) connection.release();
+  }
+};
+
+export { getAllNotes, getNotebyId, deleteNotes, updateNote };
 export default newNote;

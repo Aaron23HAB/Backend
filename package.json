@@ -6,11 +6,12 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
     "dev": "nodemon app.js",
     "initDb": "node src/db/createDb.js && node src/db/initDb.js",
     "dropDb": "node src/db/dropDb.js",
     "createDb": "node src/db/createDb.js",
-    "createTables": "node src/db/initDb.js" 
+    "createTables": "node src/db/initDb.js"
   },
   "author": "Aarón",
   "license": "ISC",
@@ -22,6 +23,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
