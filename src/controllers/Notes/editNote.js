@@ -1,9 +1,8 @@
-import generateError from "../../../helper.js";
-import { getNotebyId, updateNote } from "../../db/notes.js";
+import generateError from '../../../helper.js';
+import { getNotebyId, updateNote } from '../../db/notes.js';
 
 const editNote = async (req, res, next) => {
   try {
-    
     const { id } = req.params;
     const { content } = req.body;
 
@@ -13,7 +12,10 @@ const editNote = async (req, res, next) => {
       throw generateError('La nota no se encontró', 404);
     }
     if (req.userId !== note.user_id) {
-      throw generateError('Estás intentando editar una nota que no es tuya', 401);
+      throw generateError(
+        'Estás intentando editar una nota que no es tuya',
+        401
+      );
     }
 
     note.content = content;
@@ -21,10 +23,9 @@ const editNote = async (req, res, next) => {
 
     res.json({
       status: 'ok',
-      data: note
+      data: note,
     });
   } catch (error) {
-    
     next(error);
   }
 };

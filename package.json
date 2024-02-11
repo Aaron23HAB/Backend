@@ -10,8 +10,7 @@
     "dev": "nodemon app.js",
     "initDb": "node src/db/createDb.js && node src/db/initDb.js",
     "dropDb": "node src/db/dropDb.js",
-    "createDb": "node src/db/createDb.js",
-    "createTables": "node src/db/initDb.js"
+    "createDb": "node src/db/createDb.js"
   },
   "author": "Aarón",
   "license": "ISC",
