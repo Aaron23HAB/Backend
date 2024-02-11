@@ -2,12 +2,12 @@
  import deleteNote from './deleteNote.js';
  import getNote from './getNote.js';
  import getAllNotes from './getAllNotes.js';
- import updateNote from './updateNote.js';
+ import editNote from './editNote.js';
 
 export {
   createNote,
   deleteNote,
   getNote,
   getAllNotes,
-  updateNote,
+  editNote,
 };

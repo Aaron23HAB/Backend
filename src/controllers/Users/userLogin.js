@@ -1,5 +1,5 @@
 import generateError from "../../../helper.js"
-import getUserById from "../../db/users.js"
+import {getUserById} from "../../db/users.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
@@ -13,6 +13,9 @@ const userLogin = async (req, res, next) => {
 
         //recojo datos de DB
         const user = await getUserById(email);
+        if (!user) {
+            throw generateError('El usuario no existe', 401);
+        }
 
         //contraseñas coinciden
         const validPassword = await bcrypt.compare(password, user.password);
@@ -28,12 +31,9 @@ const userLogin = async (req, res, next) => {
 
         const token = jwt.sign(payload, process.env.SECRET, {expiresIn: '90d'});
 
-        res.send({
-            status: 'error',
-            message: 'not implemented'
-        })
-        res.status(200).json({token: token });
-    } catch(error) { 
+        // Envío de token
+        res.status(200).json({ token: token });
+    } catch (error) {
         next(error);
     }
 };

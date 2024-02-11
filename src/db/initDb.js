@@ -29,7 +29,7 @@ async function main() {
             user_id INT NOT NULL,
             title VARCHAR(100) NOT NULL,
             texto TEXT NOT NULL,
-            categorie_id INT,
+            categoria VARCHAR(100),
             eliminated BOOLEAN DEFAULT FALSE,
             FOREIGN KEY (user_id) REFERENCES users(id),
             FOREIGN KEY (categorie_id) REFERENCES categories(id)

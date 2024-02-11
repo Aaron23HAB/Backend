@@ -21,9 +21,13 @@ const editNote = async (req, res, next) => {
     note.content = content;
     await updateNote(id, note);
 
-    res.json({
+    res.status(200).json({
       status: 'ok',
-      data: note,
+      message: `La nota con el id ${id} ha sido editada correctamente`,
+      editedNote: {
+        id: id,
+        content: content
+      }
     });
   } catch (error) {
     next(error);

@@ -10,15 +10,16 @@ const deleteNote = async (req, res, next) => {
         const note = await getNotebyId(id);
 
         if(req.userId !== note.user_id) {
-            throw generateError('Estas intentando borrar una nota que no es tuya', 401)
+            throw generateError('No tienes los permisos para dicha acción', 401)
         }
 
         await deleteNotes(id);
 
-      res.send({
-          status: 'ok',
-          data: note
-      })
+        res.status(200).json({
+            status: 'ok',
+            message: `La nota con id ${id} ha sido eliminada correctamente`,
+            deletedNote: note
+          });
     } catch(error) {
       next(error);
   }

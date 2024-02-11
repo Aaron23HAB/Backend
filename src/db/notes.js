@@ -1,6 +1,5 @@
 import generateError from '../../helper.js';
-import getPool from './db.js';
-//import generateError from '../../helper.js';
+import getPool from './pool.js';
 
 const newNote = async (user_id, title, text, categorie_id) => {
   let connection;
@@ -10,7 +9,8 @@ const newNote = async (user_id, title, text, categorie_id) => {
       `
         INSERT INTO notes (user_id, title, text, categorie_id)
         VALUES (?,?,?,?)
-        `[(user_id, title, text, categorie_id)]
+        `,
+        [user_id, title, text, categorie_id]
     );
 
     return result.insertId;
@@ -25,11 +25,15 @@ const getAllNotes = async () => {
   try {
     connection = await getPool();
     const [result] = await connection.query(`
-    SELECT * FROM ntoes ORDER BY created_at DESC
+    SELECT * FROM notes
     `);
-    return result;
+    if (result && result.length > 0){
+      return result;
+    } else {
+      return [];
+    }
   } finally {
-    if (connection) connection.release();
+    if (connection) connection.release;
   }
 };
 
@@ -40,15 +44,15 @@ const getNotebyId = async (id) => {
     connection = await getPool();
     const [result] = await connection.query(
       `
-    SELECT * FROM notes ORDER BY created_at DESC
-    `[id]
+    SELECT * FROM notes WHERE id = ?
+    `,[id]
     );
 
     if (result.length === 0) {
       throw generateError(`La nota con id: ${id} no existe`, 404);
     }
 
-    return result;
+    return result[0];
   } finally {
     if (connection) connection.release();
   }
@@ -61,11 +65,11 @@ const deleteNotes = async (id) => {
     connection = await getPool();
     const [result] = await connection.query(
       `
-    SELECT * FROM notes WHERE id = ?
-    `[id]
+    DELETE FROM notes WHERE id = ?
+    `,[id]
     );
 
-    if (result.length === 0) {
+    if (result.affectedRows === 0) {
       throw generateError(`La nota con id: ${id} no existe`, 404);
     }
 
@@ -83,7 +87,7 @@ const updateNote = async (newTexto, newTitle, id, userId) => {
     const [result] = await connection.query(
       `
     UPDATE notes SET texto = ?, title = ? WHERE id = ? AND user_id = ?
-    `[(newTexto, newTitle, id, userId)]
+    `,[newTexto, newTitle, id, userId]
     );
 
     if (result.affectedRows === 0) {

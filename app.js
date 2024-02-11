@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
 import {
   patchUser,
   userRegister,
@@ -13,12 +14,12 @@ import {
     getAllNotes,
     editNote,
   } from './src/controllers/Notes/index.js'
+
+import { getAllCategoriesController, createCategoryController } from "./src/controllers/Categories/categoryController.js";
   
 import auth from "./src/middlewares/auth.js"
 
 const app = express();
-const cors = require('cors');
-
 
 app.use(express.json());
 app.use(morgan('dev'));
@@ -36,6 +37,9 @@ app.post('/', createNote, auth);
 app.delete('/', deleteNote, auth);
 app.patch('/note/:id', editNote, auth);
 
+//rutas de categorias
+app.get('/categories', getAllCategoriesController);
+app.post('/categories', createCategoryController);
 
 
 //lanzamos servidor

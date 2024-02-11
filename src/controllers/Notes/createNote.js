@@ -10,9 +10,11 @@ const createNote = async (req, res, next) => {
     }
 
     const id = await newNote(req.userId, text);
-    res.send({
+    res.status(201).json({
       status: 'ok',
       message: `Nota con id ${id} creada correctamente`,
+      id: id,
+      text: text,
     });
   } catch (error) {
     next(error);
