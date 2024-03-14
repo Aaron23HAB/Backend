@@ -1,13 +1,11 @@
-import generateError from '../../../helper.js';
-import newNote from '../../db/notes.js';
+import {newNote} from '../../db/notes.js';
+import { createNoteValidate } from '../../utils/joi.js';
 
 const createNote = async (req, res, next) => {
   try {
-    const { text } = req.body;
+    const { title, text, category } = req.body;
 
-    if (!text) {
-      throw generateError('Es necesario insertar un texto', 400);
-    }
+    createNoteValidate({ title, text, category })
 
     const id = await newNote(req.userId, text);
     res.status(201).json({

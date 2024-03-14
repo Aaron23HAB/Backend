@@ -1,5 +1,5 @@
-import generateError from '../../helper.js';
-import getPool from './db.js';
+import generateError from '../utils/GenerateError.js'
+import getPool from './pool.js';
 import 'dotenv/config';
 
 const useDb = async () => {

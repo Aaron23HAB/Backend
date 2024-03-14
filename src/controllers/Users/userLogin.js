@@ -1,4 +1,4 @@
-import generateError from "../../../helper.js"
+import generateError from '../../utils/GenerateError.js';
 import {getUserById} from "../../db/users.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"

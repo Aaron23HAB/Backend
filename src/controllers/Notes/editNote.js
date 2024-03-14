@@ -1,4 +1,4 @@
-import generateError from '../../../helper.js';
+import { editNoteValidate } from '../../utils/joi.js';
 import { getNotebyId, updateNote } from '../../db/notes.js';
 
 const editNote = async (req, res, next) => {
@@ -8,15 +8,9 @@ const editNote = async (req, res, next) => {
 
     const note = await getNotebyId(id);
 
-    if (!note) {
-      throw generateError('La nota no se encontró', 404);
-    }
-    if (req.userId !== note.user_id) {
-      throw generateError(
-        'Estás intentando editar una nota que no es tuya',
-        401
-      );
-    }
+    const { title, text, category } = note;
+
+    editNoteValidate({ title, text, category })
 
     note.content = content;
     await updateNote(id, note);

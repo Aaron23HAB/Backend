@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import getPool from './db.js';
+import getPool from './pool.js';
 
 async function main() {
   let connection;

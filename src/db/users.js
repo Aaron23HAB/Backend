@@ -1,4 +1,4 @@
-import generateError from '../../helper.js';
+import generateError from '../utils/GenerateError.js'
 import bcrypt from 'bcrypt';
 import getPool from './pool.js';
 
@@ -14,20 +14,25 @@ const getUserById = async (id) => {
       SELECT id, name, email, created_at FROM users WHERE id=?
       `,[id]
     );
+
+    connection.release();
+    
     if (result.length === 0) {
       throw generateError('Usuario no encontrado', 404);
     }
-  } finally {
-    if (connection) connection.release();
+    return result[0]
+  } catch (error) {
+    throw generateError
   }
 };
 
 // Crear usuario en base de datos y devuelve id
 const createUser = async (name, email, password) => {
-  let connection;
+  let pool;
 
   try {
-    connection = await getPool();
+    pool = await getPool();
+    const connection = await pool.getConnection();
 
     const [user] = await connection.query(
       `
@@ -46,22 +51,24 @@ const createUser = async (name, email, password) => {
     //creacion user
     const [newUser] = await connection.query(
       `
-        INSERT INTO users (name, email, password) VALUES(?,?,?,?)
+        INSERT INTO users (name, email, password) VALUES(?,?,?)
         `,[name, email, hashPassword]
     );
-    //devuelve ID
+    connection.release();
+
     return newUser.insertId;
-  } finally {
-    if (connection) connection.release();
+  } catch (error) {
+    throw generateError;
   }
 };
 
 
 const updateUser = async (userId, newData) => {
-  let connection;
+  let pool;
 
   try {
-    connection = await getPool();
+    pool = await getPool();
+    const connection = await pool.getConnection();
 
     const [existingUser] = await connection.query(
       `
@@ -71,6 +78,7 @@ const updateUser = async (userId, newData) => {
     );
 
     if (existingUser.length === 0) {
+      connection.release();
       throw generateError('Usuario no encontrado', 404);
     }
 
@@ -88,9 +96,11 @@ const updateUser = async (userId, newData) => {
       [name || existingUser[0].name, email || existingUser[0].email, hashedPassword || existingUser[0].password, userId]
     );
 
+    connection.release();
+
     return 'Usuario actualizado correctamente';
-  } finally {
-    if (connection) connection.release();
+  } catch (error) {
+    throw generateError
   }
 };
 

@@ -1,16 +1,16 @@
-import generateError from '../../helper.js';
+import generateError from '../utils/GenerateError.js';
 import useDb from './useDb.js';
-import getPool from './db.js';
+import getPool from './pool.js';
 import 'dotenv/config';
 
 const createDb = async () => {
   try {
     const pool = await getPool();
     await pool.query(`
-        CREATE DATABASE IF NOT EXIST ${process.env.DATABASE}
+        CREATE MYSQL_DATABASE IF NOT EXIST ${process.env.MYSQL_DATABASE}
         `);
     console.log(
-      `La base de datos ${process.env.DATABASE} ha sido creada correctamente`
+      `La base de datos ${process.env.MYSQL_DATABASE} ha sido creada correctamente`
     );
     await useDb;
   } catch(error) {

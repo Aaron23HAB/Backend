@@ -1,17 +1,12 @@
-import generateError from '../../../helper.js';
-import {updateUser} from '../../db/users.js';
+import { updateUser } from '../../db/users.js';
 import bcrypt from 'bcrypt';
+import { editUserValidate } from '../../utils/joi.js';
 
 const patchUser = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
-    if (!email && !password) {
-      throw generateError(
-        'Debes proporcionar al menos un campo para actualizar',
-        400
-      );
-    }
+    editUserValidate({ name, email, password });
 
     let hashedPassword;
     if (password) {

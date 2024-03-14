@@ -1,10 +1,13 @@
-import generateError from '../../helper.js';
+import generateError from '../utils/GenerateError.js'
 import getPool from './pool.js';
 
 const newNote = async (user_id, title, text, categorie_id) => {
+  let pool;
   let connection;
   try {
-    connection = await getPool();
+    pool = await getPool();
+    const connection = await pool.getConnection();
+    
     const [result] = await connection.query(
       `
         INSERT INTO notes (user_id, title, text, categorie_id)
@@ -15,15 +18,20 @@ const newNote = async (user_id, title, text, categorie_id) => {
 
     return result.insertId;
   } finally {
-    if (connection) connection.release();
+    if (pool && pool.releaseConnection) {
+      pool.releaseConnection(connection);
+    }
   }
 };
 
 const getAllNotes = async () => {
+  let pool;
   let connection;
 
   try {
-    connection = await getPool();
+    pool = await getPool();
+    const connection = await pool.getConnection();
+
     const [result] = await connection.query(`
     SELECT * FROM notes
     `);
@@ -33,15 +41,20 @@ const getAllNotes = async () => {
       return [];
     }
   } finally {
-    if (connection) connection.release;
+    if (pool && pool.releaseConnection) {
+      pool.releaseConnection(connection);
+    }
   }
 };
 
 const getNotebyId = async (id) => {
+  let pool;
   let connection;
 
   try {
-    connection = await getPool();
+    pool = await getPool();
+    const connection = await pool.getConnection();
+
     const [result] = await connection.query(
       `
     SELECT * FROM notes WHERE id = ?
@@ -54,15 +67,20 @@ const getNotebyId = async (id) => {
 
     return result[0];
   } finally {
-    if (connection) connection.release();
+    if (pool && pool.releaseConnection) {
+      pool.releaseConnection(connection);
+    }
   }
 };
 
 const deleteNotes = async (id) => {
+  let pool;
   let connection;
 
   try {
-    connection = await getPool();
+    pool = await getPool();
+    connection = await pool.getConnection();
+
     const [result] = await connection.query(
       `
     DELETE FROM notes WHERE id = ?
@@ -75,15 +93,20 @@ const deleteNotes = async (id) => {
 
     return result;
   } finally {
-    if (connection) connection.release();
+    if (pool && pool.releaseConnection) {
+      pool.releaseConnection(connection);
+    }
   }
 };
 
 const updateNote = async (newTexto, newTitle, id, userId) => {
+  let pool;
   let connection;
 
   try {
-    connection = await getPool();
+    pool = await getPool();
+    connection = await pool.getConnection();
+
     const [result] = await connection.query(
       `
     UPDATE notes SET texto = ?, title = ? WHERE id = ? AND user_id = ?
@@ -99,9 +122,11 @@ const updateNote = async (newTexto, newTitle, id, userId) => {
     console.error('Error al actualizar la nota:', error);
     throw new Error('Ocurrió un error al actualizar la nota ');
   } finally {
-    if (connection) connection.release();
+    if (pool && pool.releaseConnection) {
+      pool.releaseConnection(connection);
+    }
   }
 };
 
-export { getAllNotes, getNotebyId, deleteNotes, updateNote };
-export default newNote;
+export { getAllNotes, newNote, getNotebyId, deleteNotes, updateNote };
+

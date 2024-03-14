@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise';
-import generateError from "../../helper.js"
+import generateError from '../utils/GenerateError.js'
 
 const { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_PORT } = process.env;
 
@@ -15,7 +15,6 @@ const getPool = async () => {
         user: MYSQL_USER,
         password: MYSQL_PASSWORD,
         database: MYSQL_DATABASE,
-        
         timezone: 'Z',
       });
     }

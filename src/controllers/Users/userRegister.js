@@ -1,13 +1,11 @@
-import generateError from '../../../helper.js';
 import { createUser } from '../../db/users.js';
+import { registerValidate } from '../../utils/joi.js';
 
 const userRegister = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
-    if (!email || !password) {
-      throw generateError('Debes proporcionar email y contraseña', 400);
-    }
+    registerValidate({name, email, password})
 
     const id = await createUser(email, password);
 

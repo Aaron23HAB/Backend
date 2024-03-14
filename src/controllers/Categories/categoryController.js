@@ -1,4 +1,4 @@
-import generateError from '../../../helper.js';
+import generateError from '../../utils/GenerateError.js';
 import { getAllCategories, createCategory } from '../../db/categories.js';
 
 const getAllCategoriesController = async (req, res, next) => {
