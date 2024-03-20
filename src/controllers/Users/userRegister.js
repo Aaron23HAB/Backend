@@ -7,7 +7,7 @@ const userRegister = async (req, res, next) => {
 
     registerValidate({name, email, password})
 
-    const id = await createUser(email, password);
+    const id = await createUser(name, email, password);
 
     res.status(201).json({
       status: 'ok',

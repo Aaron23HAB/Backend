@@ -1,17 +1,23 @@
 import {newNote} from '../../db/notes.js';
 import { createNoteValidate } from '../../utils/joi.js';
+import { createNoteCategoryAssociation } from '../../db/noteCategories.js';
 
 const createNote = async (req, res, next) => {
   try {
-    const { title, text, category } = req.body;
+    const { title, text, categoryIds } = req.body;
 
-    createNoteValidate({ title, text, category })
+    createNoteValidate({ title, text, categoryIds })
 
-    const id = await newNote(req.userId, text);
+    const noteId = await newNote(req.userId, text);
+
+    for (const categoryId of categoryIds) {
+      await createNoteCategoryAssociation(noteId, categoryId);
+    }
+
     res.status(201).json({
       status: 'ok',
-      message: `Nota con id ${id} creada correctamente`,
-      id: id,
+      message: `Nota con id ${noteId} creada correctamente`,
+      id: noteId,
       text: text,
     });
   } catch (error) {

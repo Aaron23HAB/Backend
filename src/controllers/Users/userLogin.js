@@ -1,5 +1,5 @@
 import generateError from '../../utils/GenerateError.js';
-import {getUserById} from "../../db/users.js"
+import {getUserByEmail} from "../../db/users.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
@@ -12,7 +12,7 @@ const userLogin = async (req, res, next) => {
         }
 
         //recojo datos de DB
-        const user = await getUserById(email);
+        const user = await getUserByEmail(email);
         if (!user) {
             throw generateError('El usuario no existe', 401);
         }

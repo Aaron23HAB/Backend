@@ -11,7 +11,7 @@ const getUserById = async (id) => {
 
     const [result] = await connection.query(
       `
-      SELECT id, name, email, created_at FROM users WHERE id=?
+      SELECT id, name, email FROM users WHERE id=?
       `,[id]
     );
 
@@ -104,4 +104,27 @@ const updateUser = async (userId, newData) => {
   }
 };
 
-export { createUser, getUserById, updateUser };
+const getUserByEmail = async (email) => {
+  let connection;
+
+  try {
+    connection = await getPool();
+
+    const [result] = await connection.query(
+      `
+      SELECT id, name, email FROM users WHERE email=?
+      `,[email]
+    );
+
+    connection.release();
+    
+    if (result.length === 0) {
+      throw generateError('Usuario no encontrado', 404);
+    }
+    return result[0];
+  } catch (error) {
+    throw generateError(`Error al obtener user por email: ${error.message}`);
+  }
+};
+
+export { createUser, getUserById, updateUser, getUserByEmail };

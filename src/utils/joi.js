@@ -50,8 +50,8 @@ const createNoteValidate = ({ title, text, category }) => {
 const editNoteValidate = ({ title, text, category }) => {
   const schema = Joi.object().keys({
     title: Joi.string().min(2).max(30),
-    text: Joi.string().min(2).max(100),
-    category: Joi.string().max(600),
+    text: Joi.string().min(2).max(250),
+    category: Joi.string().max(15),
   });
 
   const validation = schema.validate({ title, text, category });
