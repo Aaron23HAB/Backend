@@ -13,7 +13,7 @@ const createDb = async () => {
       `La base de datos ${process.env.MYSQL_DATABASE} ha sido creada correctamente`
     );
     await useDb();
-  } catch(error) {
+  } catch (error) {
     generateError(`Ha habido un error al crear la base de datos ${error}`, 500);
   }
 };

@@ -1,4 +1,4 @@
-import generateError from '../utils/GenerateError.js'
+import generateError from '../utils/GenerateError.js';
 import getPool from './pool.js';
 import 'dotenv/config';
 

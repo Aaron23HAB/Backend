@@ -1,4 +1,4 @@
-import generateError from '../utils/GenerateError.js'
+import generateError from '../utils/GenerateError.js';
 import getPool from './pool.js';
 import 'dotenv/config';
 
@@ -6,10 +6,10 @@ let pool = await getPool();
 
 const dropDb = async () => {
   try {
-    await pool.query(`DROP DATABASE IF EXISTS ${process.env.DATABASE}`);
+    await pool.query(`DROP DATABASE IF EXISTS ${process.env.MYSQL_DATABASE}`);
 
     console.log(
-      `La base de datos ${process.env.DATABASE} ha sido eliminada correctamente`
+      `La base de datos ${process.env.MYSQL_DATABASE} ha sido eliminada correctamente`
     );
   } catch (error) {
     generateError(

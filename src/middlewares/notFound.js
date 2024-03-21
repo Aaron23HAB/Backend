@@ -1,7 +1,7 @@
 const notFound = (req, res) => {
   res.status(404).send({
     status: 'error',
-    message: 'Not found',
+    message: 'Ha ocurrido un error al registrarse o logearse',
   });
 };
 

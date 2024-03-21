@@ -7,7 +7,7 @@ const auth = (req, res, next) => {
 
     if (!authorization) {
       return generateError(
-        "Se requiere el header 'authorization'para continuar",
+        "Se requiere el header 'authorization' para continuar",
         401
       );
     }
@@ -18,7 +18,7 @@ const auth = (req, res, next) => {
 
     try {
       token = jwt.verify(authorization, process.env.SECRET);
-    } catch {
+    } catch (error){
       throw generateError('Token incorrecto', 401);
     }
 

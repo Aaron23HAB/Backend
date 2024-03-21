@@ -1,4 +1,4 @@
-import generateError from '../utils/GenerateError.js'
+import generateError from '../utils/GenerateError.js';
 import getPool from './pool.js';
 
 const newNote = async (user_id, title, text, categorie_id) => {
@@ -7,13 +7,13 @@ const newNote = async (user_id, title, text, categorie_id) => {
   try {
     pool = await getPool();
     const connection = await pool.getConnection();
-    
+
     const [result] = await connection.query(
       `
         INSERT INTO notes (user_id, title, text, categorie_id)
         VALUES (?,?,?,?)
         `,
-        [user_id, title, text, categorie_id]
+      [user_id, title, text, categorie_id]
     );
 
     return result.insertId;
@@ -35,7 +35,7 @@ const getAllNotes = async () => {
     const [result] = await connection.query(`
     SELECT * FROM notes
     `);
-    if (result && result.length > 0){
+    if (result && result.length > 0) {
       return result;
     } else {
       return [];
@@ -58,7 +58,8 @@ const getNotebyId = async (id) => {
     const [result] = await connection.query(
       `
     SELECT * FROM notes WHERE id = ?
-    `,[id]
+    `,
+      [id]
     );
 
     if (result.length === 0) {
@@ -84,7 +85,8 @@ const deleteNotes = async (id) => {
     const [result] = await connection.query(
       `
     DELETE FROM notes WHERE id = ?
-    `,[id]
+    `,
+      [id]
     );
 
     if (result.affectedRows === 0) {
@@ -110,7 +112,8 @@ const updateNote = async (newTexto, newTitle, id, userId) => {
     const [result] = await connection.query(
       `
     UPDATE notes SET texto = ?, title = ? WHERE id = ? AND user_id = ?
-    `,[newTexto, newTitle, id, userId]
+    `,
+      [newTexto, newTitle, id, userId]
     );
 
     if (result.affectedRows === 0) {
@@ -129,4 +132,3 @@ const updateNote = async (newTexto, newTitle, id, userId) => {
 };
 
 export { getAllNotes, newNote, getNotebyId, deleteNotes, updateNote };
-
