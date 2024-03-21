@@ -23,7 +23,19 @@ async function main() {
           nombre VARCHAR(50) NOT NULL
       );
   `);
-        
+
+    const categoriasPredefinidas = [
+      'Trabajo',
+      'Personal',
+      'Estudio',
+      'Recordatorio',
+    ];
+    for (const categoria of categoriasPredefinidas) {
+      await connection.query('INSERT INTO categories (nombre) VALUES (?)', [
+        categoria,
+      ]);
+    }
+
     await connection.query(`
         CREATE TABLE IF NOT EXISTS notes (
           id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -43,8 +55,6 @@ async function main() {
           FOREIGN KEY (category_id) REFERENCES categories(id)
       );
     `);
-
-    
   } catch (error) {
     console.error(error);
   } finally {

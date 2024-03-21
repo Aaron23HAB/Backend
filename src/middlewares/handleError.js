@@ -1,4 +1,4 @@
-const handleError = (error, req, res, next) => {
+const handleError = (error, req, res) => {
   console.error(error);
 
   res.status(error.httpStatus || 500).send({
@@ -7,4 +7,4 @@ const handleError = (error, req, res, next) => {
   });
 };
 
-export default handleError;
+export { handleError };

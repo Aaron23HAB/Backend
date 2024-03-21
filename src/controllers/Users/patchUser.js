@@ -24,4 +24,4 @@ const patchUser = async (req, res, next) => {
   }
 };
 
-export default patchUser;
+export {patchUser};
